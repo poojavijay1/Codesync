@@ -144,7 +144,19 @@ def login_teacher():
 @app.route('/dashboard/teacher')
 def dashboard_teacher():
     if 'user_id' in session and session.get('role') == 'teacher':
-         return render_template('tea.html') 
+        cursor = mysql.connection.cursor()
+        
+        # Query to fetch records with status 'Pending'
+        cursor.execute("""
+            SELECT id, filename, semester, uid, lab, status 
+            FROM saved_files 
+            WHERE status = 'Pending'
+        """)
+        pending_files = cursor.fetchall()
+        cursor.close()
+        
+        # Pass the data to the template
+        return render_template('tea.html', pending_files=pending_files) 
     return redirect('/login/teacher')
 
 #folder page for student
