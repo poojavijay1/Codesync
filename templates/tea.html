@@ -44,7 +44,7 @@
     <main class="flex-grow bg-gradient-custom p-6">
         <div class="container mx-auto">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-                <!-- Statistics Cards -->
+                <!-- Pending Reviews -->
                 <div class="card-beige rounded-lg shadow-lg p-6">
                     <div class="flex items-center">
                         <div class="p-3 bg-blue-100 rounded-full">
@@ -52,65 +52,80 @@
                         </div>
                         <div class="ml-4">
                             <h3 class="text-gray-600 text-sm">Pending Reviews</h3>
-                            <p class="text-2xl font-bold text-gray-800">24</p>
+                            <p class="text-2xl font-bold text-gray-800">{{ stats.pending_count }}</p>
                         </div>
                     </div>
                 </div>
+            
+                <!-- Approved -->
                 <div class="card-beige rounded-lg shadow-lg p-6">
                     <div class="flex items-center">
                         <div class="p-3 bg-green-100 rounded-full">
                             <i class="fas fa-check text-green-600"></i>
                         </div>
                         <div class="ml-4">
-                            <h3 class="text-gray-600 text-sm">Approved Today</h3>
-                            <p class="text-2xl font-bold text-gray-800">12</p>
+                            <h3 class="text-gray-600 text-sm">Approved</h3>
+                            <p class="text-2xl font-bold text-gray-800">{{ stats.approved_count }}</p>
                         </div>
                     </div>
                 </div>
+            
+                <!-- Rejected -->
                 <div class="card-beige rounded-lg shadow-lg p-6">
                     <div class="flex items-center">
                         <div class="p-3 bg-red-100 rounded-full">
                             <i class="fas fa-times text-red-600"></i>
                         </div>
                         <div class="ml-4">
-                            <h3 class="text-gray-600 text-sm">Needs Revision</h3>
-                            <p class="text-2xl font-bold text-gray-800">5</p>
+                            <h3 class="text-gray-600 text-sm">Rejected</h3>
+                            <p class="text-2xl font-bold text-gray-800">{{ stats.rejected_count }}</p>
                         </div>
                     </div>
                 </div>
+            
+                <!-- Total Submissions -->
                 <div class="card-beige rounded-lg shadow-lg p-6">
                     <div class="flex items-center">
                         <div class="p-3 bg-purple-100 rounded-full">
                             <i class="fas fa-users text-purple-600"></i>
                         </div>
                         <div class="ml-4">
-                            <h3 class="text-gray-600 text-sm">Active Students</h3>
-                            <p class="text-2xl font-bold text-gray-800">156</p>
+                            <h3 class="text-gray-600 text-sm">Submissions</h3>
+                            <p class="text-2xl font-bold text-gray-800">{{ stats.total_submissions }}</p>
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             <!-- Filters and Search -->
-            <div class="mt-8 card-beige rounded-lg shadow-lg p-6">
+            <!-- <div class="mt-8 card-beige rounded-lg shadow-lg p-6">
                 <div class="flex flex-wrap gap-4 items-center justify-between">
                     <div class="flex gap-4">
-                        <select class="border rounded-md px-4 py-2 bg-white">
+                        <select id="semesterFilter"class="border rounded-md px-4 py-2 bg-white">
                             <option>All Semesters</option>
-                            <option>Fall 2024</option>
-                            <option>Spring 2025</option>
+                            <option>Semester 1</option>
+                            <option>Semester 2</option>
+                            <option>Semester 3</option>
+                            <option>Semester 4</option>
+                            <option>Semester 5</option>
+                            <option>Semester 6</option>
+                            <option>Semester 7</option>
+                            <option>Semester 8</option>
                         </select>
                         <select class="border rounded-md px-4 py-2 bg-white">
                             <option>All Labs</option>
-                            <option>Lab 1: Python Basics</option>
-                            <option>Lab 2: Data Structures</option>
-                            <option>Lab 3: Algorithms</option>
+                            <option>Lab 1: C</option>
+                            <option>Lab 2: C++</option>
+                            <option>Lab 3: Java</option>
+                            <option>Lab 4: JavaScript</option>
+                            <option>Lab 5: Python</option>
                         </select>
                         <select class="border rounded-md px-4 py-2 bg-white">
                             <option>All Status</option>
                             <option>Pending</option>
                             <option>Approved</option>
-                            <option>Needs Revision</option>
+                            <option>Rejected</option>
                         </select>
                     </div>
                     <div class="relative">
@@ -118,14 +133,17 @@
                         <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
                     </div>
                 </div>
-            </div>
+            </div> -->
 
             <!-- Submissions Table -->
             <div class="mt-8 card-beige rounded-lg shadow-lg overflow-hidden">
                 <table class="min-w-full">
                     <thead class="bg-gray-50">
                         <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">UID</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">File</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Semester</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Lab</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submitted</th>
                             <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
@@ -133,71 +151,137 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200">
+                        {% for file in pending_files %}
                         <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.uid }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.filename}}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.semester }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.lab_name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.created_at }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="flex items-center">
-                                    <img src="/api/placeholder/40/40" alt="Student" class="w-8 h-8 rounded-full">
-                                    <div class="ml-4">
-                                        <div class="text-sm font-medium text-gray-900">Alex Johnson</div>
-                                        <div class="text-sm text-gray-500">alex.j@university.edu</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Lab 2: Data Structures</div>
-                                <div class="text-sm text-gray-500">Binary Search Tree Implementation</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">Jan 28, 2025</div>
-                                <div class="text-sm text-gray-500">2:30 PM</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
-                                    Pending Review
+                                <span id="status-{{ file.id }}" 
+                                    class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
+                                    {% if file.status == 'pending' %} bg-yellow-100 text-yellow-800 
+                                    {% elif file.status == 'approved' %} bg-green-100 text-green-800 
+                                    {% elif file.status == 'rejected' %} bg-red-100 text-red-800 
+                                    {% endif %}">
+                                    {{ file.status }}
                                 </span>
-                            </td>
+                            </td>                            
                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <button class="btn-teal text-white px-3 py-1 rounded-md hover:bg-teal-600 mr-2">Review</button>
-                                <button class="btn-teal text-white px-3 py-1 rounded-md hover:bg-teal-600 mr-2">Approve</button>
-                                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600">Reject</button>
+                                <button class="bg-gray-500 text-white px-3 py-1 rounded-md hover:bg-gray-600 mr-2"
+                                    onclick="viewSavedCode('{{ file.id }}')">
+                                    View
+                                </button>
+                                <button class="btn-teal text-white px-3 py-1 rounded-md hover:bg-teal-600 mr-2"
+                                    onclick="updateStatus('{{ file.id }}', 'approved')">
+                                    Approve
+                                </button>
+                                <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600"
+                                    onclick="updateStatus('{{ file.id }}', 'rejected')">
+                                    Reject
+                                </button>
                             </td>
                         </tr>
+                        {% endfor %}
                     </tbody>
                 </table>
-                <!-- Pagination -->
-                <div class="px-4 py-3 border-t border-gray-200 sm:px-6">
-                    <div class="flex items-center justify-between">
-                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                            <div>
-                                <p class="text-sm text-gray-700">
-                                    Showing <span class="font-medium">1</span> to <span class="font-medium">10</span> of <span class="font-medium">97</span> results
-                                </p>
-                            </div>
-                            <div>
-                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px">
-                                    <button class="btn-teal text-white px-3 py-2 rounded-l-md">
-                                        <i class="fas fa-chevron-left"></i>
-                                    </button>
-                                    <button class="btn-teal text-white px-4 py-2">1</button>
-                                    <button class="btn-teal text-white px-4 py-2">2</button>
-                                    <button class="btn-teal text-white px-4 py-2">3</button>
-                                    <button class="btn-teal text-white px-3 py-2 rounded-r-md">
-                                        <i class="fas fa-chevron-right"></i>
-                                    </button>
-                                </nav>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </main>
-
-    <!-- Footer -->
-    <footer class="bg-header-footer text-white p-4">
-        <div class="container mx-auto text-center">
-            <p>&copy; 2025 CodeSync. All rights reserved.</p>
+    <div id="codeModal" class="fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg w-11/12 md:w-3/4 lg:w-2/3 max-h-[90vh] overflow-y-auto shadow-lg p-6 relative">
+            <button onclick="closeModal()" class="absolute top-3 right-4 text-gray-500 hover:text-gray-800 text-2xl font-bold">&times;</button>
+    
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Saved Code Viewer</h2>
+    
+            <label class="block font-semibold mb-2">Code:</label>
+            <pre id="modalCode" class="w-full p-3 border rounded font-mono text-sm bg-gray-100 overflow-auto whitespace-pre-wrap max-h-[50vh]"></pre>
+            <input type="text" hidden value="" id="labid">
+            <button onclick="compileCode()" class="mt-4 bg-gray-500 hover:bg-teal-600 text-white px-4 py-2 rounded">Run Code</button>
+    
+            <div class="mt-6">
+                <h3 class="font-semibold mb-2">Output:</h3>
+                <pre id="output" class="p-3 bg-gray-200 rounded text-sm overflow-auto whitespace-pre-wrap max-h-[20vh]"></pre>
+            </div>
         </div>
-    </footer>
+    </div>
+    
+    <script>
+        async function updateStatus(fileId, status) {
+            console.log("Updating file:", fileId, "to status:", status);
+    try {
+        const response = await fetch('/update_status', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ file_id: fileId, status: status })
+        });
+
+        const result = await response.json();
+        if (response.ok) {
+            document.getElementById(`status-${fileId}`).textContent = result.new_status;
+
+            // Update status badge color
+            const statusSpan = document.getElementById(`status-${fileId}`);
+            if (status === "approved") {
+                statusSpan.className = "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800";
+            } else if (status === "rejected") {
+                statusSpan.className = "px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800";
+            }
+        } else {
+            alert(result.error);
+        }
+    } catch (error) {
+        console.error("Error updating status:", error);
+    }
+    location.reload;
+}
+async function viewSavedCode(fileId) {
+    try {
+        const response = await fetch(`/get_file_by_id/${fileId}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            document.getElementById("modalCode").textContent = data.source_code || '';
+            document.getElementById("codeModal").classList.remove("hidden");
+            document.getElementById("labid").value = data.lab || '';
+        } else {
+            alert("Error loading code.");
+        }
+    } catch (error) {
+        console.error("Error fetching file:", error);
+    }
+}
+
+function closeModal() {
+    document.getElementById("codeModal").classList.add("hidden");
+}
+
+async function compileCode() {
+    const code = document.getElementById("modalCode").textContent;
+    const id=document.getElementById("labid").value;
+    document.getElementById("output").textContent = "Compiling...";
+
+    try {
+        const response = await fetch("/compile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                source_code: code,
+                language_id: id // adjust as needed
+            })
+        });
+
+        const result = await response.json();
+        document.getElementById("output").textContent = result.output || result.error || "No output";
+    } catch (error) {
+        document.getElementById("output").textContent = "Error: " + error.message;
+    }
+}
+
+    </script>
 </body>
 </html>

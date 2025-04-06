@@ -1,20 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CodeSync - Home</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-   
-    
     <style>
+    @keyframes popUp {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+ }
+ * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
         body {
-           
             background-size: cover;
             background-position: center;
-      
             background: linear-gradient(rgba(52, 50, 50, 0.5), rgba(69, 66, 66, 0.5)), 
-            url("{{ url_for('static', filename='home10.jpg') }}") no-repeat center center/cover;
+            url("{{ url_for('static', filename='final.jpeg') }}") no-repeat center center/cover;
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
@@ -23,11 +36,8 @@
             color: #f5f5f5;
             display: flex;
             flex-direction: column;
-           
-            
             justify-content: space-between; /* Ensures footer stays at bottom */
         }
-        
         .container {
     display: flex; /* Enable flexbox */
     flex-direction: column; /* Stack the tagline and subtext vertically */
@@ -37,20 +47,29 @@
     text-align: center;
     height: 100vh; /* Ensure container takes full viewport height */
 }
-
         .tagline {
             font-size: 3rem;
             font-weight: bold;
             color: #b3c3c9;
             align-items: center;
+            top: 50%;
+            transform: translateY(-50%);
+            animation-delay: 0.2s;
+            animation-fill-mode: both;
         }
-
+        .pop-up-text {
+    animation: popUp 0.8s ease-out forwards;
+}
         .subtext {
             font-size: 1.5rem;
             margin-bottom: 50px;
             color: #b0b0b0;
+            top: 50%;
+            transform: translateY(-50%);
+            animation-delay: 0.5s;
+        
+            animation-fill-mode: both;
         }
-
         .description {
     width: 100%; /* Take up full width */
     max-width: 100%; /* Remove the max-width limitation */
@@ -62,82 +81,172 @@
     text-align: left;
     margin: 0; /* Remove margin to ensure full width */
 }
-
 .footer-container {
     display: flex;
-    flex-direction: column; /* Stack the sections vertically */
-    align-items: flex-start; /* Align items to the left */
-    padding: 20px;
-    background-color: #1c2230; /* Background color */
-    width: 100%; /* Ensure full width */
-    box-sizing: border-box; /* Include padding in width calculation */
+    justify-content: space-around;
+    flex-wrap: wrap;
+    background-color: #1c2230;
+    color: #f5f5f5;
+    padding: 30px 20px;
+    width: 100%;
+    box-sizing: border-box;
 }
-
-        .footer-section h3 {
-            margin-bottom: 15px;
-        }
-
-        .footer-section a {
-            color: #f5f5f5;
-            text-decoration: none;
-        }
-
-        .footer-section a:hover {
-            color: #00adb5;
-        }
-
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin: 10px;
+}
+.footer-section h3 {
+    color: #00adb5;
+    margin-bottom: 15px;
+}
+.footer-section a {
+    color: #f5f5f5;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px 0;
+}
+.footer-section a:hover {
+    color: #00adb5;
+}
+.social-icons a {
+    margin-right: 15px;
+    font-size: 1.5rem;
+    color: #f5f5f5;
+}
+.social-icons a:hover {
+    color: #00adb5;
+}
         .footer {
-            background-color: #1f0d2e;
+            background-color:#1a1c42;
             color: white;
             text-align: center;
             padding: 10px;
             position: relative;
             width: 100%;
         }
+        element.style {
+    scale: 5;
+    margin-top: 20p;
+    width: 5%;
+    position: relative;
+    top: 11px;
+}
+.header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      background-color: rgba(31, 13, 46, 0.9);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    .features-section {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 60px 40px;
+      gap: 40px;
+      flex-wrap: wrap;
+      backdrop-filter: blur(4px);
+    }
+    .feature-card {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 320px;
+      width: 100%;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+    .feature-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
+    }
+    .feature-card h3 {
+      font-size: 1.6rem;
+      margin-bottom: 15px;
+      color: #00adb5;
+    }
+    .feature-card p {
+      font-size: 1rem;
+      line-height: 1.6;
+      color: #dcdcdc;
+    }
+    @media (max-width: 768px) {
+      .features-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .feature-card {
+        max-width: 90%;
+      }
+    }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo">
-           
-
-            <span>CodeSync</span>
-        </div>
+       <div class="logo">
+        <span>CodeSync</span>
+    </div>
         <nav>
             <a href="{{ url_for('home') }}">HOME</a>
-            <a href="{{ url_for('student') }}">Student Login</a>
-            <a href="{{ url_for('teacher') }}">Teacher Login</a>
-            <a href="{{ url_for('logout') }}">Logout</a>
+            <a href="{{ url_for('student') }}">STUDENT LOGIN</a>
+            <a href="{{ url_for('teacher') }}">TEACHER LOGIN</a>
             <a href="#">Contact</a>
         </nav>
     </div>
-
     <div class="container">
-        <div class="tagline">Synchronize Your Code Learning Journey</div>
-        <div class="subtext">Where Code Meets Collaboration, Learning Meets Excellence</div>
+        <div class="tagline pop-up-text">Synchronize Your Code Learning Journey</div>
+        <div class="subtext pop-up-text">Where Code Meets Collaboration, Learning Meets Excellence</div>
     </div>
-   
-   
-   
-    <div class="footer-container">
-        <div class="footer-section">
-            <h3>About CodeSync</h3>
-            <p>Revolutionizing coding education with seamless collaboration, real-time feedback, and an integrated coding environment for students and teachers..</p>
+    <div class="features-section">
+        <div class="feature-card">
+          <h3>Real-Time Collaboration</h3>
+          <p>Students and teachers work together seamlessly with live code review and shared environments.</p>
         </div>
+        <div class="feature-card">
+          <h3>Organized Submissions</h3>
+          <p>All your code neatly sorted by semester, lab, and evaluation status — never lose track again.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Integrated Code Editor</h3>
+          <p>Write, run, and save code right from your browser with syntax highlighting and auto-save.</p>
+        </div>
+      </div>
+
+      <div class="footer-container">
+        <!-- Quick Links -->
         <div class="footer-section">
             <h3>Quick Links</h3>
-            <a href="student.html">Student Portal </a>|
-            <a href="teacher.html">Teacher Portal</a>
+            <a href="{{ url_for('student') }}">Student Portal</a><br>
+            <a href="{{ url_for('teacher') }}">Teacher Portal</a>
         </div>
+    
+        <!-- Social Media -->
         <div class="footer-section">
-            <h3>Contact</h3>
-            <p>Phone: 9037210005</p>
+            <h3>Connect With Us</h3>
+            <div class="social-icons">
+                <a href="https://github.com/poojavijay1/Codesync.git" target="_blank"><i class="fab fa-github"></i></a>
+                <a href="https://www.linkedin.com/in/yourusername" target="_blank"><i class="fab fa-linkedin"></i></a>
+            </div>
+        </div>
+    
+        <!-- Contact Info -->
+        <div class="footer-section">
+            <h3>Reach Out to Us</h3>
+            <p>📞 +91 90372 10005</p>
+            <p>📧 <a href="mailto:codesync@gmail.com">codesync@gmail.com</a></p>
         </div>
     </div>
-
     <div class="footer">
         <p>&copy; 2025 CodeSync. All rights reserved. </a></p>
     </div>
 </body>
 </html>
-
