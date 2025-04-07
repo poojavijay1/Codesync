@@ -319,7 +319,7 @@ def dashboard_teacher():
         #return render_template('tea.html') 
         cursor = mysql.connection.cursor()
 
-        # Query to fetch records with status 'Pending'
+        # Query to fetch records with status 'Pending', 'Approved', or 'Rejected'
         cursor.execute("""
             SELECT s.uid, s.name, sf.id, sf.filename, sf.semester, 
                    l.lab_name, sf.created_at, sf.status 
@@ -327,6 +327,7 @@ def dashboard_teacher():
             JOIN students s ON sf.uid = s.id
             JOIN labs l ON sf.lab = l.lab_id
             WHERE sf.status in ('pending','approved','rejected')
+            ORDER BY sf.semester asc
         """)
         pending_files = cursor.fetchall()
         # Fetch submission statistics

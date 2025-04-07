@@ -1,71 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Student Login</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
 
     <style>
-          body {
-           
-           background-size: cover;
-           background-position: center;
-           background-image: linear-gradient(rgba(231, 228, 228, 0.5), rgba(38, 36, 39, 0.5)), url("{{ url_for('static', filename='login.jpg') }}");
-           font-family: Arial, sans-serif;
-           margin: 0;
-           padding: 0;
-           min-height: 100vh;
-   
-           color: #f5f5f5;
-           display: flex;
-           flex-direction: column;
-          
-           
-           justify-content: space-between; /* Ensures footer stays at bottom */
-       }
+      body {
+        background-size: cover;
+        background-position: center;
+        background-image: linear-gradient(
+            rgba(231, 228, 228, 0.5),
+            rgba(38, 36, 39, 0.5)
+          ),
+          url("{{ url_for('static', filename='login.jpg') }}");
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+
+        color: #f5f5f5;
+        display: flex;
+        flex-direction: column;
+
+        justify-content: space-between; /* Ensures footer stays at bottom */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <!-- Header -->
     <div class="header">
-        <div class="logo">
-            
-            <span>CodeSync</span>
-        </div>
-        <nav>
-            <a href="{{ url_for('home') }}">Home</a>
-            <a href="{{ url_for('login_teacher') }}">Teacher Login</a>
-            <a href="#">Contact</a>
-        </nav>
+      <div class="logo">
+        <span>CodeSync</span>
+      </div>
+      <nav>
+        <a href="{{ url_for('home') }}">Home</a>
+        <a href="{{ url_for('login_teacher') }}">Teacher Login</a>
+        <a href="#">Contact</a>
+      </nav>
     </div>
 
     <!-- Login Container -->
     <form class="login-container" action="/login/student" method="POST">
-        <!-- Student Login -->
-        <div class="login-card">
-            <img src="https://cdn-icons-png.freepik.com/512/4196/4196591.png" alt="Student Icon">
-            <h2>Student Login</h2>
-            <input type="text" name="UID" placeholder="UID" required>
-            <input type="password" name="Password" placeholder="Password" required>
-            <span id="error-message" style="color: red; font-size: 14px;">
-                {% if error %} {{ error }} {% endif %}
-            </span>
-    
-            <button type="submit">Login </button> 
-            <p>Not a member yet? <a href="/signup/student">Sign up!</a></p>
-        </div>
+      <!-- Student Login -->
+      <div class="login-card">
+        <img
+          src="https://cdn-icons-png.freepik.com/512/4196/4196591.png"
+          alt="Student Icon"
+        />
+        <h2>Student Login</h2>
+        <input type="text" name="UID" placeholder="UID" required />
+        <input
+          type="password"
+          name="Password"
+          placeholder="Password"
+          required
+        />
+        <span id="error-message" style="color: red; font-size: 14px">
+          {% if error %} {{ error }} {% endif %}
+        </span>
+
+        <button type="submit">Login</button>
+        <p>Not a member yet? <a href="/signup/student">Sign up!</a></p>
+      </div>
     </form>
-    <div class="footer">&copy; CodeSync 2025 | <a href="#" style="color:white;">Terms of Service</a></div>
+    <div class="footer">
+      &copy; CodeSync 2025 |
+      <a href="#" style="color: white">Terms of Service</a>
+    </div>
     <script>
-        // Store user_id from Flask session into localStorage
-        const userId = "{{ session['user_id'] }}";
-        if (userId) {
-          localStorage.setItem('user_id', userId);
-        } else {
-          console.error("User ID not found in session.");
-        }
-      </script>
-      
-</body>
+      // Store user_id from Flask session into localStorage
+      const userId = "{{ session['user_id'] }}";
+      if (userId) {
+        localStorage.setItem("user_id", userId);
+      } else {
+        console.error("User ID not found in session.");
+      }
+    </script>
+  </body>
 </html>
